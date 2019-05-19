@@ -4,6 +4,8 @@ import * as cookieParser from "cookie-parser";
 import * as logger from "morgan";
 import * as expressGraphQL from "express-graphql";
 
+import "./db";
+
 import schema from "./schema";
 
 const app = express();

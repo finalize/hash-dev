@@ -1,5 +1,4 @@
-const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLSchema } = graphql;
+import { GraphQLObjectType, GraphQLSchema } from "graphql";
 
 import { UserQuery } from "./queries/UserQuery";
 
