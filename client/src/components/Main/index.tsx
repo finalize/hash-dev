@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import Input from '../Form/Input';
+import TagList from '../TagList';
 
 const Main = styled.div`
   text-align: center;
@@ -18,6 +19,7 @@ const main = () => {
   return (
     <Main>
       <Input />
+      <TagList />
     </Main>
   );
 };
