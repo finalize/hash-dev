@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { graphql } from 'react-apollo';
+import { ApolloConsumer, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const Input = styled.input`
@@ -14,8 +14,56 @@ const Input = styled.input`
   color: #555;
 `;
 
-const input = () => {
-  return <Input />;
+const GET_VISIBILITY_FILTER = gql`
+  {
+    visibilityFilter @client
+  }
+`;
+
+const input = (props: any) => {
+  const [value, setValue] = React.useState('');
+  React.useEffect(() => {
+    console.log(props);
+  });
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>, client: any) => {
+    e.preventDefault();
+
+    props
+      .mutate({
+        variables: {
+          name: value,
+        },
+        refetchQueries: [{ GET_VISIBILITY_FILTER }],
+      })
+      .then((data: any) => {
+        client.writeData({ data: { test: 1 } });
+        console.log(client);
+        setValue('');
+      });
+  };
+
+  return (
+    <ApolloConsumer>
+      {client => {
+        return (
+          <Input
+            onChange={() =>
+              client.writeData({ data: { visibilityFilter: !true } })
+            }
+          />
+        );
+      }}
+    </ApolloConsumer>
+  );
 };
 
-export default input;
+const mutation = gql`
+  mutation AddTag($name: String) {
+    addTag(name: $name) {
+      name
+    }
+  }
+`;
+
+export default graphql(mutation)(input);

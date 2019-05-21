@@ -1,8 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import Input from '../Form/Input';
-import TagList from '../TagList';
+import Form from '../Form';
 
 const Main = styled.div`
   text-align: center;
@@ -18,8 +17,7 @@ const Main = styled.div`
 const main = () => {
   return (
     <Main>
-      <Input />
-      <TagList />
+      <Form />
     </Main>
   );
 };

@@ -11,6 +11,4 @@ const TagType: any = new GraphQLObjectType({
   })
 });
 
-console.log(TagType);
-
 export default TagType;

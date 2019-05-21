@@ -11,12 +11,8 @@ const UserQuery = {
   args: {
     id: { type: GraphQLString }
   },
-  resolve(parentValue: any, args: { id: string }) {
-    User.find({ name: "Harr" }).then(data => {
-      console.log(data);
-    });
-
-    return { id: "1", name: "Harry" };
+  async resolve(parentValue: any, args: { id: string }) {
+    return await User.find({ name: "Harr" });
   }
 };
 

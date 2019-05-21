@@ -9,8 +9,6 @@ const TagList = styled.div`
 `;
 
 const taglist = (props: any) => {
-  console.log(props);
-
   return <TagList />;
 };
 
