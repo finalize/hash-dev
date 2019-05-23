@@ -14,23 +14,14 @@ const Form = styled.div``;
 
 const GET_VISIBILITY_FILTER = gql`
   {
-    visibilityFilter @client
+    test @client
   }
 `;
 const form = (props: any) => {
   return (
     <Query query={GET_VISIBILITY_FILTER}>
       {({ data, client }: any) => {
-        cache.writeData({
-          data: {
-            isLoggedIn: !!localStorage.getItem('token'),
-            cartItems: [],
-          },
-        });
-        if (data) {
-          console.log(data);
-        }
-
+        client.writeData({ data: { test: 'ok' } });
         return <Input />;
       }}
     </Query>

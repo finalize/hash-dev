@@ -7,7 +7,17 @@ import { ApolloProvider } from 'react-apollo';
 
 import Main from './components/Main';
 
-const client = new ApolloClient({});
+const client = new ApolloClient({
+  clientState: {
+    defaults: {},
+    resolvers: {},
+    typeDefs: `
+      type Query {
+        test: String
+      }
+    `,
+  },
+});
 
 const Root = () => {
   return (

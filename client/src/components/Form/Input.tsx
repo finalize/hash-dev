@@ -22,9 +22,6 @@ const GET_VISIBILITY_FILTER = gql`
 
 const input = (props: any) => {
   const [value, setValue] = React.useState('');
-  React.useEffect(() => {
-    console.log(props);
-  });
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>, client: any) => {
     e.preventDefault();
@@ -48,9 +45,17 @@ const input = (props: any) => {
       {client => {
         return (
           <Input
-            onChange={() =>
-              client.writeData({ data: { visibilityFilter: !true } })
-            }
+            onChange={async () => {
+              client.writeData({ data: { test: !true } });
+              const { data } = await client.query({
+                query: gql`
+                  {
+                    test @client
+                  }
+                `,
+              });
+              console.log(data);
+            }}
           />
         );
       }}
