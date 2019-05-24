@@ -4,6 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import Main from './components/Main';
 
@@ -16,6 +17,16 @@ cache.writeData({
 const client = new ApolloClient({
   cache,
   link: new HttpLink(),
+  resolvers: {
+    Mutation: {
+      toggleTodo: (_root, variables, { cache, getCacheKey }) => {
+        const data = { todos: [1] };
+        cache.writeData({ data });
+        console.log(1);
+        return null;
+      },
+    },
+  },
 });
 
 const Root = () => {

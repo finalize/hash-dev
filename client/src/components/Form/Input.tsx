@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { ApolloConsumer, graphql, Query } from 'react-apollo';
+import { ApolloConsumer, graphql, Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const Input = styled.input`
@@ -20,6 +20,12 @@ const GET_VISIBILITY_FILTER = gql`
   }
 `;
 
+const TOGGLE_TODO = gql`
+  mutation ToggleTodo($id: Int!) {
+    toggleTodo(id: $id) @client
+  }
+`;
+
 const input = (props: any) => {
   const [value, setValue] = React.useState('');
 
@@ -29,7 +35,7 @@ const input = (props: any) => {
   ) => {
     e.preventDefault();
     client.writeData({ data: { test: !true } });
-
+    client.toggleTodo;
     // props
     //   .mutate({
     //     variables: {
@@ -47,11 +53,16 @@ const input = (props: any) => {
   return (
     <Query query={GET_VISIBILITY_FILTER}>
       {({ data: { todos } }: any) => (
-        <Input
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            console.log(todos)
-          }
-        />
+        <Mutation mutation={TOGGLE_TODO}>
+          {(toggleTodo: any) => (
+            <Input
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                toggleTodo();
+                console.log(todos);
+              }}
+            />
+          )}
+        </Mutation>
       )}
     </Query>
   );
