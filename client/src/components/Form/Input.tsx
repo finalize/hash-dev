@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { ApolloConsumer, graphql } from 'react-apollo';
+import { ApolloConsumer, graphql, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const Input = styled.input`
@@ -16,50 +16,44 @@ const Input = styled.input`
 
 const GET_VISIBILITY_FILTER = gql`
   {
-    visibilityFilter @client
+    todos @client
   }
 `;
 
 const input = (props: any) => {
   const [value, setValue] = React.useState('');
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>, client: any) => {
+  const onSubmit = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    client: any,
+  ) => {
     e.preventDefault();
+    client.writeData({ data: { test: !true } });
 
-    props
-      .mutate({
-        variables: {
-          name: value,
-        },
-        refetchQueries: [{ GET_VISIBILITY_FILTER }],
-      })
-      .then((data: any) => {
-        client.writeData({ data: { test: 1 } });
-        console.log(client);
-        setValue('');
-      });
+    // props
+    //   .mutate({
+    //     variables: {
+    //       name: value,
+    //     },
+    //     refetchQueries: [{ GET_VISIBILITY_FILTER }],
+    //   })
+    //   .then((data: any) => {
+    //     client.writeData({ data: { test: 1 } });
+    //     console.log(client);
+    //     setValue('');
+    //   });
   };
 
   return (
-    <ApolloConsumer>
-      {client => {
-        return (
-          <Input
-            onChange={async () => {
-              client.writeData({ data: { test: !true } });
-              const { data } = await client.query({
-                query: gql`
-                  {
-                    test @client
-                  }
-                `,
-              });
-              console.log(data);
-            }}
-          />
-        );
-      }}
-    </ApolloConsumer>
+    <Query query={GET_VISIBILITY_FILTER}>
+      {({ data: { todos } }: any) => (
+        <Input
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            console.log(todos)
+          }
+        />
+      )}
+    </Query>
   );
 };
 
