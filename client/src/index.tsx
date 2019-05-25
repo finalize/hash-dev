@@ -4,27 +4,23 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-import gql from 'graphql-tag';
+
+import data from './data/initialData';
+
+import { addTag } from './schema/mutations/AddTagMutation';
 
 import Main from './components/Main';
 
 const cache = new InMemoryCache();
 cache.writeData({
-  data: {
-    todos: ['test'],
-  },
+  data,
 });
 const client = new ApolloClient({
   cache,
   link: new HttpLink(),
   resolvers: {
     Mutation: {
-      toggleTodo: (_root, variables, { cache, getCacheKey }) => {
-        const data = { todos: [1] };
-        cache.writeData({ data });
-        console.log(1);
-        return null;
-      },
+      addTag,
     },
   },
 });
